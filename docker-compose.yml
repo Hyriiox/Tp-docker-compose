@@ -1,0 +1,17 @@
+services:
+  # Création du service BDD
+  mariadb:
+    # Nom de l'image créée à partir du Dockerfile
+    image: mariadb:lts-ubi9
+    # Le nom du conteneur instancié
+    container_name: maria-db
+    restart: 'always'
+    # Montage de volumes divers
+    volumes:
+      # volume permettant d'initialiser la BDD au lancement du conteneur
+      - ${MARIADB_DUMP_DIR}:/docker-entrypoint-initdb.d 
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DB_NAME}
+    ports:
+      - "9806:3306"
